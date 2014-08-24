@@ -1,0 +1,69 @@
+#! /usr/bin/python
+# coding: utf-8
+'''
+import random, os
+
+
+CHUNK_SIZE = 26
+PATH = "/home/user/naeem/scikit/new/test1.txt"
+
+def pick_next_random_line(file, offset):
+    file.seek(offset)
+    chunk = file.read(CHUNK_SIZE)
+    lines = chunk.split(os.linesep)
+    # Make some provision in case yiou had not read at least one full line here
+    line_offset = offset + len(os.linesep) + chunk.find(os.linesep) 
+    return line_offset, lines[1]
+
+def get_n_random_lines(path, n=6):
+    lenght = os.stat(path).st_size
+    results = []
+    result_offsets = set()
+    with open(path) as input:
+        for x in range(n):
+            while True:
+                offset, line = pick_next_random_line(input, random.randint(0, lenght - CHUNK_SIZE))
+                if not offset in result_offsets:
+                    result_offsets.add(offset)
+                    results.append(line)
+                    break
+    return results
+
+if __name__ == "__main__":
+    print get_n_random_lines(PATH, 20)
+
+import random
+
+n = 5
+filesize = 26                 # size of the really big file
+
+f = open('/home/user/naeem/scikit/new/test1.txt')
+
+random_line = []
+for x in range(n):
+    offset = random.randint(0,filesize)
+    print offset    
+    f.seek(offset)                      # go to random position
+    print f.readline()
+    random_line.append(f.readline())    # bingo!
+#random_line
+'''
+import numpy as np
+
+PATH = "/home/user/naeem/scikit/new/test1.txt"
+total_lines = 26                 # size of the really big file
+
+def pick_random_decoys(path, total_lines, n=5):
+	f = open(path)
+	a = np.arange(total_lines)
+	np.random.shuffle(a)
+	random_line = a[:n]
+	random_lines = []
+	for x in random_line:
+	   f.seek(x)                  	# go to random position
+	   random_line = f.readline()	# bingo!
+	   random_lines.append(random_line)
+	return random_lines
+
+if __name__ == "__main__":
+    print pick_random_decoys(PATH, total_lines, 6)
